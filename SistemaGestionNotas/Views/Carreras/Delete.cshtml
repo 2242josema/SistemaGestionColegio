@@ -1,0 +1,65 @@
+﻿@model SistemaGestionNotas.Models.Carrera
+
+@{
+    ViewData["Title"] = "Eliminar Carrera";
+}
+
+<div class="card shadow border-0">
+    <div class="card-header bg-light py-3">
+        <div>
+            <h4 class="mb-0 text-danger">
+                <i class="fas fa-exclamation-triangle me-2"></i>@ViewData["Title"]
+            </h4>
+            <small class="text-muted ms-1">Universidad Tech</small>
+        </div>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">¿Estás seguro de que quieres eliminar esta carrera?</h5>
+        <p class="text-muted">Esta acción no se puede deshacer.</p>
+
+        <hr />
+
+        <dl class="row mt-4">
+            <dt class="col-sm-3 fw-bold">
+                @Html.DisplayNameFor(model => model.Codigo)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Codigo)
+            </dd>
+
+            <dt class="col-sm-3 fw-bold">
+                @Html.DisplayNameFor(model => model.Nombre)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Nombre)
+            </dd>
+
+            <dt class="col-sm-3 fw-bold">
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Descripcion)
+            </dd>
+
+            <dt class="col-sm-3 fw-bold">
+                @Html.DisplayNameFor(model => model.EstadoCarrera)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.EstadoCarrera)
+            </dd>
+        </dl>
+    </div>
+    <div class="card-footer bg-light">
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="CarreraId" />
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash-alt me-2"></i>Sí, Eliminar
+                </button>
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="fas fa-times me-2"></i>Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

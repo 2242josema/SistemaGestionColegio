@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<html lang="es" data-theme="light">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@ViewData["Title"] - Universidad Tech</title>
+    <link rel="stylesheet" href="~/vendors/feather/feather.css">
+    <link rel="stylesheet" href="~/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="~/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="~/vendors/typicons/typicons.css">
+    <link rel="stylesheet" href="~/vendors/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="~/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/css/vertical-layout-light/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/custom-styles.css">
+    <link rel="shortcut icon" href="~/images/favicon.png" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+</head>
+<body class="sidebar-fixed">
+
+    @{
+        string nombreUsuario = User.FindFirst("FullName")?.Value ?? User.Identity?.Name ?? "Usuario";
+    }
+
+    <div class="container-scroller">
+        <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
+
+            <div class="navbar-brand-wrapper d-flex align-items-center justify-content-start" style="height: 100px;">
+
+                <div class="me-3 d-none d-lg-flex align-items-center">
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
+                        <span class="icon-menu"></span>
+                    </button>
+                </div>
+
+                <a class="navbar-brand brand-logo d-none d-lg-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/logotransparenteblack.png" alt="Universidad Tech Logo" style="height: 120px; width: auto; display: block;" />
+                </a>
+
+               
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-top">
+                <ul class="navbar-nav">
+                    <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
+                        <h1 class="welcome-text">Hola, <span class="text-black fw-bold">@nombreUsuario</span></h1>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown d-none d-lg-block user-dropdown">
+                        <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="mdi mdi-account-circle fs-1"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+                            <div class="dropdown-header text-center">
+                                <i class="mdi mdi-account-circle icon-md-header"></i>
+                                <p class="mb-1 mt-3 font-weight-semibold">@nombreUsuario</p>
+                                <p class="fw-light text-muted mb-0">@User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value</p>
+                            </div>
+                            <a class="dropdown-item" href="/Identity/Account/Logout"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Cerrar Sesión</a>
+                        </div>
+                    </li>
+                </ul>
+
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-bs-toggle="offcanvas">
+                    <span class="mdi mdi-menu"></span>
+                </button>
+            </div>
+        </nav>
+        <div class="container-fluid page-body-wrapper">
+            <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                            <i class="mdi mdi-home-variant menu-icon"></i>
+                            <span class="menu-title">Inicio</span>
+                        </a>
+                    </li>
+                    <li class="nav-item nav-category">Modulos</li>
+
+                    @if (User.IsInRole("Administrador"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Carreras" asp-action="Index">
+                                <i class="mdi mdi-school menu-icon"></i>
+                                <span class="menu-title">Carreras</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Alumnos" asp-action="Index">
+                                <i class="mdi mdi-account-group menu-icon"></i>
+                                <span class="menu-title">Alumnos</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Profesores" asp-action="Index">
+                                <i class="mdi mdi-account-tie menu-icon"></i>
+                                <span class="menu-title">Profesores</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Cursos" asp-action="Index">
+                                <i class="mdi mdi-google-classroom menu-icon"></i>
+                                <span class="menu-title">Cursos</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="CursoInscripciones" asp-action="Index">
+                                <i class="mdi mdi-book-plus menu-icon"></i>
+                                <span class="menu-title">Inscripciones Cursos</span>
+                            </a>
+                        </li>
+                    }
+
+                    @if (User.IsInRole("Profesor") || User.IsInRole("Alumno"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Cursos" asp-action="Index">
+                                <i class="mdi mdi-google-classroom menu-icon"></i>
+                                <span class="menu-title">Cursos</span>
+                            </a>
+                        </li>
+                    }
+
+                    @if (User.IsInRole("Profesor") || User.IsInRole("Alumno"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Calificaciones" asp-action="Index">
+                                <i class="mdi mdi-file-chart menu-icon"></i>
+                                <span class="menu-title">Calificaciones</span>
+                            </a>
+                        </li>
+                    }
+
+                    @if (User.IsInRole("Administrador"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Calificaciones" asp-action="Index">
+                                <i class="mdi mdi-file-chart menu-icon"></i>
+                                <span class="menu-title">Calificaciones</span>
+                            </a>
+                        </li>
+                    }
+
+                    @if (User.IsInRole("Administrador"))
+                    {
+                        <li class="nav-item nav-category">Administración</li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Roles" asp-action="Index">
+                                <i class="mdi mdi-shield-account menu-icon"></i>
+                                <span class="menu-title">Roles</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Usuarios" asp-action="Index">
+                                <i class="mdi mdi-account-key menu-icon"></i>
+                                <span class="menu-title">Usuarios</span>
+                            </a>
+                        </li>
+
+                    }
+                </ul>
+            </nav>
+            <div class="main-panel">
+                <div class="content-wrapper" style="padding-top: 20px; padding-left: 35px; padding-right: 35px;">
+                    @RenderBody()
+                </div>
+                <footer class="footer">
+                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">
+                            Universidad Tech - Todos los derechos reservados.
+                        </span>
+                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">
+                            Copyright © <span id="year"></span>.
+                        </span>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <script src="~/vendors/js/vendor.bundle.base.js"></script>
+    <script src="~/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <script src="~/js/off-canvas.js"></script>
+    <script src="~/js/hoverable-collapse.js"></script>
+    <script src="~/js/template.js"></script>
+    <script src="~/js/settings.js"></script>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        (function() {
+            const themeSwitch = document.getElementById('checkbox');
+            const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+
+            if (currentTheme) {
+                document.documentElement.setAttribute('data-theme', currentTheme);
+                if (currentTheme === 'dark') {
+                    themeSwitch.checked = true;
+                }
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+
+            themeSwitch.addEventListener('change', function(event) {
+                if (event.target.checked) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        })();
+    </script>
+
+
+</body>
+</html>

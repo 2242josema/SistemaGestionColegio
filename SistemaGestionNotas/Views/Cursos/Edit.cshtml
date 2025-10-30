@@ -1,0 +1,92 @@
+﻿@model SistemaGestionNotas.Models.Curso
+
+@{
+    ViewData["Title"] = "Editar Curso";
+}
+
+<div class="card shadow border-0">
+    <div class="card-header bg-light py-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="mb-0 text-primary">
+                    <i class="fas fa-edit me-2"></i>@ViewData["Title"]
+                </h4>
+                <small class="text-muted ms-1">Universidad Tech</small>
+            </div>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Volver al Listado
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <input type="hidden" asp-for="CursoId" />
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Codigo" class="form-label"></label>
+                    <input asp-for="Codigo" class="form-control" />
+                    <span asp-validation-for="Codigo" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Nombre" class="form-label"></label>
+                    <input asp-for="Nombre" class="form-control" />
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Seccion" class="form-label"></label>
+                    <select asp-for="Seccion" class="form-select">
+                        <option value="A">Sección A</option>
+                        <option value="B">Sección B</option>
+                        <option value="C">Sección C</option>
+                        <option value="D">Sección D</option>
+                    </select>
+                    <span asp-validation-for="Seccion" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Ciclo" class="form-label"></label>
+                    <input asp-for="Ciclo" class="form-control" />
+                    <span asp-validation-for="Ciclo" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="CarreraId" class="form-label"></label>
+                    <select asp-for="CarreraId" class="form-select" asp-items="ViewBag.CarreraId"></select>
+                    <span asp-validation-for="CarreraId" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="ProfesorId" class="form-label"></label>
+                    <select asp-for="ProfesorId" class="form-select" asp-items="ViewBag.ProfesorId"></select>
+                    <span asp-validation-for="ProfesorId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="EstadoCurso" class="form-label"></label>
+                <select asp-for="EstadoCurso" class="form-select">
+                    <option value="Activo">Activo</option>
+                    <option value="Inactivo">Inactivo</option>
+                </select>
+                <span asp-validation-for="EstadoCurso" class="text-danger"></span>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i>Guardar Cambios
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

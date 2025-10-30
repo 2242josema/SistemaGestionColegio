@@ -1,0 +1,66 @@
+﻿@model SistemaGestionNotas.Models.Carrera
+
+@{
+    ViewData["Title"] = "Crear Nueva Carrera";
+}
+
+<div class="card shadow border-0">
+    <div class="card-header bg-light py-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="mb-0 text-primary">
+                    <i class="fas fa-plus-circle me-2"></i>@ViewData["Title"]
+                </h4>
+                <small class="text-muted ms-1">Universidad Tech</small>
+            </div>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Volver al Listado
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Codigo" class="form-label"></label>
+                    <input asp-for="Codigo" class="form-control" placeholder="Ej: IS-001" />
+                    <span asp-validation-for="Codigo" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Nombre" class="form-label"></label>
+                    <input asp-for="Nombre" class="form-control" placeholder="Ej: Ingeniería de Software" />
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Descripcion" class="form-label"></label>
+                <textarea asp-for="Descripcion" class="form-control" rows="3" placeholder="Añade una breve descripción de la carrera..."></textarea>
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="EstadoCarrera" class="form-label"></label>
+                <select asp-for="EstadoCarrera" class="form-select">
+                    <option value="Activa">Activa</option>                   
+                    <option value="Inactiva">Inactiva</option>
+                </select>
+                <span asp-validation-for="EstadoCarrera" class="text-danger"></span>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save me-2"></i>Crear Carrera
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

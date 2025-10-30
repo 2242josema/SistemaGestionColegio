@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>@ViewData["Title"] - Login Colegio</title>
+
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/vendors/feather/feather.css" />
+    <link rel="stylesheet" href="~/vendors/mdi/css/materialdesignicons.min.css" />
+    <link rel="stylesheet" href="~/vendors/ti-icons/css/themify-icons.css" />
+    <link rel="stylesheet" href="~/vendors/typicons/typicons.css" />
+    <link rel="stylesheet" href="~/vendors/simple-line-icons/css/simple-line-icons.css" />
+    <link rel="stylesheet" href="~/vendors/css/vendor.bundle.base.css" />
+    <link rel="stylesheet" href="~/vendors/datatables.net-bs4/dataTables.bootstrap4.css" />
+    <link rel="stylesheet" href="~/vendors/ti-icons/css/themify-icons.css" />
+    <link rel="stylesheet" type="text/css" href="~/js/select.dataTables.min.css" />
+    <link rel="stylesheet" href="~/css/vertical-layout-light/style.css" />
+    <link rel="shortcut icon" href="~/images/favicon.png" />
+
+    <style>
+        body {
+            background: url('/images/FondoColegio.jpg') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        main.container.py-4 {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 420px;
+            padding: 35px 25px;
+            /* Transparencia Fondo */
+            background: rgba(255, 255, 255, 0.1); 
+
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            /* Color de texto */
+            color: #333333; 
+            text-align: center;
+        }
+
+        main h2 {
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #333333; 
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            /* Para transparencia */
+            border: 1px solid rgba(255, 255, 255, 0.8); 
+            background: rgba(255, 255, 255, 0.1); 
+            /* Color de texto input */
+            color: #333333; 
+            outline: none;
+            font-size: 14px;
+            transition: 0.3s ease;
+        }
+
+            input[type="text"]::placeholder,
+            input[type="password"]::placeholder {
+                color: #666666; 
+            }
+
+            input[type="text"]:focus,
+            input[type="password"]:focus {
+                border-color: #4facfe;
+                box-shadow: 0 0 6px #4facfe;
+            }
+
+        button[type="submit"],
+        input[type="submit"] {
+            background: linear-gradient(135deg, #4facfe 0%, #1f3bb3 100%);
+            color: #fff; 
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 15px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+            button[type="submit"]:hover,
+            input[type="submit"]:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 15px rgba(79, 172, 254, 0.4);
+            }
+
+        /* "¿Olvidaste tu contraseña?" y "Registrarse" */
+        a {
+            color: #333333; 
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+            a:hover {
+                text-decoration: underline;
+                color: #4facfe; /* Color al pasar el mouse */
+            }
+    </style>
+</head>
+<body>
+    <main role="main" class="container py-4">
+        @RenderBody()
+    </main>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html> 

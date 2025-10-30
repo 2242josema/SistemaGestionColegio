@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Emanuel\\Desktop\\SistemaGestionNotas Ver 1.7\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{78EDD639-524A-4F90-B4DB-0BC429F624C6}|SistemaGestionNotas\\SistemaGestionNotas.csproj|c:\\users\\emanuel\\desktop\\sistemagestionnotas ver 1.7\\sistemagestionnotas\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{78EDD639-524A-4F90-B4DB-0BC429F624C6}|SistemaGestionNotas\\SistemaGestionNotas.csproj|solutionrelative:sistemagestionnotas\\controllers\\usuarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UsuariosController.cs",
+              "DocumentMoniker": "C:\\Users\\Emanuel\\Desktop\\SistemaGestionNotas Ver 1.7\\SistemaGestionNotas\\Controllers\\UsuariosController.cs",
+              "RelativeDocumentMoniker": "SistemaGestionNotas\\Controllers\\UsuariosController.cs",
+              "ToolTip": "C:\\Users\\Emanuel\\Desktop\\SistemaGestionNotas Ver 1.7\\SistemaGestionNotas\\Controllers\\UsuariosController.cs",
+              "RelativeToolTip": "SistemaGestionNotas\\Controllers\\UsuariosController.cs",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAmwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T02:42:41.853Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

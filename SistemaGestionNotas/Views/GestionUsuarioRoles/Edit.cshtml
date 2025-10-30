@@ -1,0 +1,60 @@
+﻿@model SistemaGestionNotas.Models.GestionUsuarioRoles
+
+@{
+    ViewData["Title"] = "Editar Roles de Usuario";
+}
+
+<div class="card shadow border-0">
+    <div class="card-header bg-light py-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="mb-0 text-primary">
+                    <i class="fas fa-user-shield me-2"></i>@ViewData["Title"]
+                </h4>
+                <small class="text-muted ms-1">Universidad Tech</small>
+            </div>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Volver al Listado
+            </a>
+        </div>
+    </div>
+    <form asp-action="Edit" method="post">
+        <div class="card-body">
+            <input type="hidden" asp-for="UserId" />
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">Usuario:</label>
+                <p class="fs-5 p-2 bg-light border rounded">@Model.Email</p>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Asignar Roles:</label>
+                <div class="list-group border rounded">
+                    @foreach (var role in Model.Roles)
+                    {
+                        <label class="list-group-item list-group-item-action">
+                            <input class="form-check-input me-2"
+                                   type="checkbox"
+                                   name="SelectedRoles"
+                                   value="@role"
+                                   @(Model.SelectedRoles != null && Model.SelectedRoles.Contains(role) ? "checked" : "")>
+                            @role
+                        </label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-light text-end">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i>Guardar Cambios
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

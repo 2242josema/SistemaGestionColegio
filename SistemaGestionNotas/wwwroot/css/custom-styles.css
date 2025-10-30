@@ -1,0 +1,315 @@
+﻿/* ==========================================================================
+   1. CONFIGURACIÓN GLOBAL: VARIABLES Y ESTILOS BASE
+   ========================================================================== */
+
+:root {
+    /* -- Tipografía -- */
+    --font-primary: 'Poppins', system-ui, -apple-system, sans-serif;
+    /* -- Timing y Animaciones -- */
+    --transition-speed-fast: 0.2s;
+    --transition-speed-normal: 0.3s;
+    --transition-easing: cubic-bezier(0.25, 0.8, 0.25, 1);
+    /* -- Paleta de colores para iconos (funcional) -- */
+    --icon-color-inicio: #8E44AD;
+    --icon-color-carreras: #2980B9;
+    --icon-color-profesores: #27AE60;
+    --icon-color-alumnos: #F1C40F;
+    --icon-color-cursos: #E67E22;
+    --icon-color-inscripciones: #16A085;
+    --icon-color-calificaciones: #E74C3C;
+    --icon-color-admin: #10CBF4;
+}
+
+/* ==========================================================================
+   2. SISTEMA DE TEMAS (LIGHT & DARK)
+   ========================================================================== */
+
+/* --- Tema Claro --- */
+html[data-theme='light'] {
+    --surface-1: #F4F7FC; /* Fondo principal */
+    --surface-2: #FFFFFF; /* Fondo de elementos como sidebar, cards */
+    --text-1: #212529; /* Texto primario, más oscuro */
+    --text-2: #6C757D; /* Texto secundario, más claro */
+    --border-color: #dee2e6;
+    --shadow-color: rgba(108, 117, 125, 0.1);
+    --header-bg: linear-gradient(to bottom, #FFFFFF, #F9FAFB);
+    --header-bg-hover: #F0F2F5;
+    --header-text: #34495E;
+}
+
+/* --- Tema Oscuro --- */
+html[data-theme='dark'] {
+    --surface-1: #161925;
+    --surface-2: #1E2230;
+    --text-1: #F8F9FA;
+    --text-2: #ADB5BD;
+    --border-color: #343A40;
+    --shadow-color: rgba(0, 0, 0, 0.25);
+    --header-bg: linear-gradient(to bottom, #34495E, #2C3E50);
+    --header-bg-hover: #4A637C;
+    --header-text: #ECF0F1;
+}
+
+/* ==========================================================================
+   3. ESTILOS GENERALES Y LAYOUT
+   ========================================================================== */
+
+body {
+    font-family: var(--font-primary);
+    background-color: var(--surface-1);
+    color: var(--text-1);
+    transition: background-color var(--transition-speed-normal), color var(--transition-speed-normal);
+}
+
+.main-panel, .content-wrapper {
+    background-color: var(--surface-1);
+}
+
+.sidebar,
+.navbar .navbar-brand-wrapper,
+.navbar .navbar-menu-wrapper {
+    background-color: var(--surface-2);
+}
+
+.card {
+    background-color: var(--surface-2);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 5px 25px 0 var(--shadow-color);
+    transition: transform var(--transition-speed-normal) var(--transition-easing), box-shadow var(--transition-speed-normal) var(--transition-easing);
+    border-radius: 12px; /* Un toque más moderno */
+}
+
+h1, h2, h3, h4, h5, h6,
+.welcome-text .text-black,
+.nav-item .nav-link .menu-title,
+.dropdown-item, .dropdown-header {
+    color: var(--text-1);
+}
+
+.text-muted,
+.nav-item.nav-category {
+    color: var(--text-2);
+}
+
+/* ==========================================================================
+   4. BARRA LATERAL (SIDEBAR) - ¡LA MAGIA ESTÁ AQUÍ!
+   ========================================================================== */
+
+.sidebar .nav {
+    /* --- Definición de colores locales por ítem --- */
+    /* Esta es la clave: definimos una variable local --icon-color-local
+     en cada enlace. Así, los elementos hijos (.menu-icon) pueden usarla
+     sin necesidad de reglas repetitivas. ¡Esto es CSS avanzado! */
+    a [href="/"]
+
+{
+    --icon-color-local: var(--icon-color-inicio);
+}
+
+a[href*="/Carreras"] {
+    --icon-color-local: var(--icon-color-carreras);
+}
+
+a[href*="/Profesores"] {
+    --icon-color-local: var(--icon-color-profesores);
+}
+
+a[href*="/Alumnos"] {
+    --icon-color-local: var(--icon-color-alumnos);
+}
+
+a[href*="/Cursos"] {
+    --icon-color-local: var(--icon-color-cursos);
+}
+
+a[href*="/CursoInscripciones"] {
+    --icon-color-local: var(--icon-color-inscripciones);
+}
+
+a[href*="/Calificaciones"] {
+    --icon-color-local: var(--icon-color-calificaciones);
+}
+
+/* Usamos :is() para agrupar selectores de forma limpia */
+:is(a[href*="/Usuarios"], a[href*="/Roles"], a[href*="/GestionUsuarioRoles"]) {
+    --icon-color-local: var(--icon-color-admin);
+}
+
+.nav-item {
+    margin: 4px 0;
+    .nav-link
+
+{
+    display: flex;
+    align-items: center;
+    transition: background-color var(--transition-speed-fast) ease;
+    border-radius: 8px;
+    &:hover, &:focus-visible
+
+{
+    background-color: var(--shadow-color);
+    outline: none;
+}
+
+}
+
+.menu-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid; /* Usamos grid para centrar perfectamente */
+    place-items: center;
+    font-size: 20px;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    /* Usamos la variable local definida en el padre */
+    background-color: var(--icon-color-local);
+    transition: transform var(--transition-speed-normal) var(--transition-easing), box-shadow var(--transition-speed-normal) var(--transition-easing);
+}
+
+.nav-link:hover .menu-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* --- Estilo del ítem ACTIVO --- */
+&.active {
+    .nav-link
+
+{
+    background-color: transparent;
+}
+
+.menu-title {
+    font-weight: 600;
+    color: var(--icon-color-local); /* El título también toma el color */
+}
+
+.menu-icon {
+    transform: scale(1.1);
+    /* La sombra también usa la variable local. ¡Cero repetición! */
+    box-shadow: 0 0 20px -5px var(--icon-color-local);
+}
+
+}
+}
+}
+
+/* ==========================================================================
+   5. TABLAS PROFESIONALES
+   ========================================================================== */
+
+.table {
+    color: var(--text-1);
+    thead th
+
+{
+    background: var(--header-bg);
+    color: var(--header-text);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.75px;
+    font-size: 12px;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 2px solid var(--border-color);
+    padding: 1rem;
+    vertical-align: middle;
+    cursor: pointer;
+    transition: background-color var(--transition-speed-fast) ease-in-out;
+    &:hover, &:focus-visible
+
+{
+    background: var(--header-bg-hover);
+    outline: none;
+}
+
+}
+
+/* ... otros estilos de tabla que necesites ... */
+}
+
+/* ==========================================================================
+   6. INTERRUPTOR DE TEMA (THEME SWITCH) MEJORADO
+   ========================================================================== */
+.theme-switch {
+    display: inline-block;
+    height: 34px;
+    position: relative;
+    width: 60px;
+    input
+
+{
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0; /* Reemplaza top, right, bottom, left: 0 */
+    background-color: #7b8b9c;
+    border-radius: 34px;
+    transition: background-color var(--transition-speed-normal) var(--transition-easing);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5px;
+    overflow: hidden;
+    &::before
+
+{
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform var(--transition-speed-normal) var(--transition-easing);
+}
+
+.icon-sun, .icon-moon {
+    font-family: 'feather';
+    color: #fff;
+    transition: opacity var(--transition-speed-normal), transform var(--transition-speed-normal);
+}
+
+.icon-sun {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.icon-moon {
+    opacity: 0;
+    transform: translateX(-10px);
+}
+
+}
+
+input:checked + .slider {
+    background-image: linear-gradient(to right, #434343 0%, black 100%);
+    &::before
+
+{
+    transform: translateX(26px);
+}
+
+.icon-sun {
+    opacity: 0;
+    transform: translateX(10px);
+}
+
+.icon-moon {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+}
+
+/* Accesibilidad: Foco visible en el switch */
+input:focus-visible + .slider {
+    box-shadow: 0 0 0 2px var(--surface-1), 0 0 0 4px var(--icon-color-carreras);
+}
+}

@@ -1,0 +1,57 @@
+﻿@model SistemaGestionNotas.Models.Carrera
+
+@{
+    ViewData["Title"] = "Detalles de la Carrera";
+}
+
+<div class="card shadow border-0">
+    <div class="card-header bg-light py-3">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div>
+                <h4 class="mb-0 text-primary">
+                    <i class="fas fa-info-circle me-2"></i>@ViewData["Title"]
+                </h4>
+                <small class="text-muted ms-1">Universidad Tech</small>
+            </div>
+            <div class="d-flex gap-2">
+                <a asp-action="Edit" asp-route-id="@Model.CarreraId" class="btn btn-warning">
+                    <i class="fas fa-edit me-2"></i>Editar
+                </a>
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Volver al Listado
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3 fw-bold border-bottom pb-2 mb-2">
+                @Html.DisplayNameFor(model => model.Codigo)
+            </dt>
+            <dd class="col-sm-9 border-bottom pb-2 mb-2">
+                @Html.DisplayFor(model => model.Codigo)
+            </dd>
+
+            <dt class="col-sm-3 fw-bold border-bottom pb-2 mb-2">
+                @Html.DisplayNameFor(model => model.Nombre)
+            </dt>
+            <dd class="col-sm-9 border-bottom pb-2 mb-2">
+                @Html.DisplayFor(model => model.Nombre)
+            </dd>
+
+            <dt class="col-sm-3 fw-bold border-bottom pb-2 mb-2">
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </dt>
+            <dd class="col-sm-9 border-bottom pb-2 mb-2">
+                @Html.DisplayFor(model => model.Descripcion)
+            </dd>
+
+            <dt class="col-sm-3 fw-bold pb-2 mb-2">
+                @Html.DisplayNameFor(model => model.EstadoCarrera)
+            </dt>
+            <dd class="col-sm-9 pb-2 mb-2">
+                @Html.DisplayFor(model => model.EstadoCarrera)
+            </dd>
+        </dl>
+    </div>
+</div>

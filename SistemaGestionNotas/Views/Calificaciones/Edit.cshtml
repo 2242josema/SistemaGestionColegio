@@ -1,0 +1,64 @@
+﻿@model SistemaGestionNotas.Models.Calificacion
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Calificacion</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CalificacionId" />
+            <div class="form-group">
+                <label asp-for="CursoId" class="control-label"></label>
+                <select asp-for="CursoId" class="form-control" asp-items="ViewBag.CursoId"></select>
+                <span asp-validation-for="CursoId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AlumnoId" class="control-label"></label>
+                <select asp-for="AlumnoId" class="form-control" asp-items="ViewBag.AlumnoId"></select>
+                <span asp-validation-for="AlumnoId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NotaParcialUno" class="control-label"></label>
+                <input asp-for="NotaParcialUno" class="form-control" />
+                <span asp-validation-for="NotaParcialUno" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NotaParcialDos" class="control-label"></label>
+                <input asp-for="NotaParcialDos" class="form-control" />
+                <span asp-validation-for="NotaParcialDos" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NotaZona" class="control-label"></label>
+                <input asp-for="NotaZona" class="form-control" />
+                <span asp-validation-for="NotaZona" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NotaExamen" class="control-label"></label>
+                <input asp-for="NotaExamen" class="form-control" />
+                <span asp-validation-for="NotaExamen" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NotaFinal" class="control-label"></label>
+                <input asp-for="NotaFinal" class="form-control" />
+                <span asp-validation-for="NotaFinal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,149 @@
+﻿@* Archivo: Views/Usuarios/CreateSuccess.cshtml *@
+@{
+    ViewData["Title"] = "Usuario Creado Exitosamente";
+
+    
+    var usuarioId = ViewBag.UsuarioId as string;
+    var rol = ViewBag.RolCreado as string;
+    var userName = ViewBag.UserName as string;
+    var email = ViewBag.Email as string;
+    var password = ViewBag.Password as string;
+
+    
+    string controller = "";
+    string buttonText = "";
+    string iconClass = "";
+
+    if (rol == "Alumno")
+    {
+        controller = "Alumnos";
+        buttonText = "Crear Perfil de Alumno";
+        iconClass = "fa-graduation-cap";
+    }
+    else if (rol == "Profesor")
+    {
+        controller = "Profesores";
+        buttonText = "Crear Perfil de Profesor";
+        iconClass = "fa-chalkboard-teacher";
+    }
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+
+<div class="card shadow mb-4">
+    <div class="card-header bg-success text-white py-3">
+        <h5 class="m-0 font-weight-bold">Registro Exitoso</h5>
+    </div>
+    <div class="card-body">
+
+        <div class="alert alert-success border-left-success" role="alert">
+            <h4 class="alert-heading">Usuario Base Creado</h4>
+            <p>El usuario de acceso ha sido creado exitosamente en el sistema de Identity con el rol: <strong>@rol</strong>.</p>
+        </div>
+
+        <h6 class="font-weight-bold text-primary mb-3">Detalles de Acceso (Importante):</h6>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm" style="max-width: 600px;">
+                <tbody>
+                    <tr>
+                        <td class="font-weight-bold bg-light" style="width: 35%;">ID del Usuario</td>
+                        <td>@usuarioId</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold bg-light">Nombre de Usuario (Login)</td>
+                        <td>@userName</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold bg-light">Correo Electrónico</td>
+                        <td>@email</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold bg-light">Rol Asignado</td>
+                        <td><span class="badge badge-info p-2">@rol</span></td>
+                    </tr>
+                    @if (password != null)
+                    {
+                        <tr>
+                            <td class="font-weight-bold bg-light">Contraseña</td>
+                            <td>
+                                <div class="input-group input-group-sm">
+                                    <input type="password" class="form-control" id="tempPassword" value="@password" readonly style="border-right: none;"><p> </p>
+                                    <div class="input-group-append">                                     
+                                        <button class="btn btn-outline-secondary"
+                                                type="button"
+                                                id="togglePassword"
+                                                title="Mostrar/Ocultar Contraseña"
+                                                style="margin-left: 5px; padding: 0.25rem 0.5rem; line-height: 1.5; height: calc(1.5em + .5rem + 2px);">
+                                            <i class="fas fa-eye-slash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <small class="text-danger mt-1 d-block"> **Copie esta contraseña.** No estará disponible después de navegar fuera de esta página.</small>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="2" class="text-warning">La contraseña no pudo ser recuperada (TempData perdido). Contacte al administrador si no la registró.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <hr class="mt-4 mb-4">
+
+        @if (!string.IsNullOrEmpty(controller))
+        {
+            <p class="mb-3 font-weight-bold">
+                Paso 2: Asignación del Perfil de Entidad
+            </p>
+            <p>Haga clic en el botón para ser dirigido al formulario de creación del perfil de **@rol**, donde el usuario ya estará preseleccionado.</p>
+
+            <div class="d-flex justify-content-start flex-wrap">
+                <a asp-controller="@controller"
+                   asp-action="Create"
+                   asp-route-usuarioId="@usuarioId"
+                   class="btn btn-primary btn-lg shadow-sm mr-3 mb-2">
+                    <i class="fas @iconClass"></i> @buttonText
+                </a>
+                <a asp-action="Index" class="btn btn-secondary btn-lg shadow-sm mb-2">
+                    <i class="fas fa-list"></i> Finalizar y Volver a la lista
+                </a>
+            </div>
+        }
+        else
+        {
+            <p class="mt-3">El rol **@rol** no requiere un perfil de entidad adicional. Puede volver a la lista de usuarios.</p>
+            <a asp-action="Index" class="btn btn-secondary btn-lg shadow-sm mb-2">
+                <i class="fas fa-list"></i> Volver a la lista de Usuarios
+            </a>
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function (e) {
+            const passwordField = document.getElementById('tempPassword');
+            const toggleIcon = this.querySelector('i');
+
+            // Toggle the type attribute
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+
+            // Toggle the icon
+            if (type === 'text') {
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            } else {
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            }
+        });
+    </script>
+}

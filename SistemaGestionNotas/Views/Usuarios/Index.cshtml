@@ -1,0 +1,120 @@
+﻿@model IEnumerable<SistemaGestionNotas.Models.UsuarioAplicacion>
+
+@{
+    ViewData["Title"] = "Gestión de Usuarios";
+    // Casteamos el ViewBag a un diccionario para poder usarlo fácilmente
+    var rolesDict = ViewBag.RolesPorUsuario as Dictionary<string, string>;
+}
+
+<div class="card shadow border-0">
+    <div class="card-header bg-light py-3">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div>
+                <h4 class="mb-0 text-primary">
+                    <i class="fas fa-users me-2"></i>@ViewData["Title"]
+                </h4>
+                <small class="text-muted ms-1">Universidad Tech</small>
+            </div>
+            <div class="d-flex gap-2">
+                <a asp-action="Create" class="btn btn-primary">
+                    <i class="fas fa-user-plus me-2"></i> Crear Nuevo Usuario
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+
+        @* ***** INICIO DE CÓDIGO MODIFICADO ***** *@
+        @if (TempData["MensajeExitoUsuario"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["MensajeExitoUsuario"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        @if (TempData["MensajeErrorUsuario"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                @TempData["MensajeErrorUsuario"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        @* ***** FIN DE CÓDIGO MODIFICADO ***** *@
+
+
+        @if (Model.Any())
+        {
+            <div class="table-responsive">
+                <table id="usersTable" class="table table-striped table-hover" style="width:100%">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th class="d-none d-lg-table-cell">Fecha Creación</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.UserName</td>
+                                <td>@item.Email</td>
+                                <td>
+                                    @if (rolesDict != null && rolesDict.ContainsKey(item.Id))
+                                    {
+                                        @rolesDict[item.Id]
+                                    }
+                                </td>
+                                <td class="d-none d-lg-table-cell">
+                                    @item.FechaCreacion.ToString("dd/MM/yyyy")
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group" role="group">
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm" title="Editar Usuario">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm text-white" title="Ver Detalles">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm" title="Eliminar Usuario">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                No se encontraron usuarios para mostrar.
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#usersTable').DataTable({
+                "dom": '<"row mb-3"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
+                       '<"row"<"col-sm-12"tr>>' +
+                       '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+                },
+                "columnDefs": [
+                    { "orderable": false, "targets": 4 },
+                    { "searchable": false, "targets": 4 }
+                ]
+            });
+        });
+    </script>
+}

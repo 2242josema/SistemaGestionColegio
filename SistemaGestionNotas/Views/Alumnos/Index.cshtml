@@ -1,0 +1,176 @@
+﻿@model IEnumerable<SistemaGestionNotas.Models.Alumno>
+
+@{
+    ViewData["Title"] = "Gestión de Alumnos";
+}
+
+<div class="card shadow border-0">
+
+    <!-- 1. IMAGEN OCULTA PARA EL LOGO -->
+    <img id="logoUniversidad" src="@Url.Content("~/images/logotransparenteblack.png")" alt="Logo" style="display: none;" />
+
+    <div class="card-header bg-light py-3">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+
+            <div>
+                <h4 class="mb-0 text-primary">
+                    <i class="fas fa-user-graduate me-2"></i>@ViewData["Title"]
+                </h4>
+                <small class="text-muted ms-1">Universidad Tech</small>
+            </div>
+
+            <div class="d-flex gap-2">
+                <a asp-action="Create" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Crear Nuevo
+                </a>
+                <button class="btn btn-outline-danger" onclick="exportTableToPDF('Reporte de Alumnos', 'alumnosTable')">
+                    <i class="fas fa-file-pdf me-2"></i> PDF
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="alumnosTable" class="table table-striped table-hover" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Usuario)</th>
+                        <th>@Html.DisplayNameFor(model => model.Codigo)</th>
+                        <th>@Html.DisplayNameFor(model => model.Nombre)</th>
+                        <th>@Html.DisplayNameFor(model => model.Carrera)</th>
+                        <th>@Html.DisplayNameFor(model => model.FechaFinSolvencia)</th>
+                        <th>@Html.DisplayNameFor(model => model.EstadoAlumno)</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Usuario.UserName)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Codigo)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Carrera.Nombre)</td>
+                            <td>@Html.DisplayFor(modelItem => item.FechaFinSolvencia)</td>
+                            <td>@Html.DisplayFor(modelItem => item.EstadoAlumno)</td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <a asp-action="Edit" asp-route-id="@item.AlumnoId" class="btn btn-warning btn-sm" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a asp-action="Details" asp-route-id="@item.AlumnoId" class="btn btn-info btn-sm text-white" title="Detalles">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.AlumnoId" class="btn btn-danger btn-sm" title="Eliminar">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+    <script>
+        
+        $(document).ready(function () {
+            $('#alumnosTable').DataTable({
+                "dom": '<"row mb-3"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
+                    '<"row"<"col-sm-12"tr>>' +
+                    '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json'
+                }
+            });
+        });
+
+        
+        async function exportTableToPDF(reportTitle, tableID, filename = 'ReporteDeAlumnos') {
+            const { jsPDF } = window.jspdf;
+           
+            const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+            const universityName = "Universidad Tech";
+            const pageWidth = doc.internal.pageSize.getWidth();
+
+            
+            try {
+                const logo = document.getElementById('logoUniversidad');
+                const logoWidth = 45;
+                const logoHeight = 45;
+                const logoX = 15;
+                const logoY = 5;
+
+                if (logo.complete && logo.naturalWidth !== 0) {
+                    doc.addImage(logo, 'PNG', logoX, logoY, logoWidth, logoHeight);
+                } else {
+                    await new Promise((resolve, reject) => {
+                        logo.onload = () => {
+                            doc.addImage(logo, 'PNG', logoX, logoY, logoWidth, logoHeight);
+                            resolve();
+                        };
+                        logo.onerror = () => {
+                            console.error("No se pudo cargar el logo para el PDF.");
+                            reject();
+                        };
+                    });
+                }
+            } catch (error) {
+                console.error("Error al añadir el logo:", error);
+            }
+
+            
+            doc.setFontSize(18);
+            doc.setFont("helvetica", "bold");
+            doc.text(reportTitle, pageWidth / 2, 25, { align: 'center' });
+
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "normal");
+            doc.text(universityName, pageWidth / 2, 33, { align: 'center' });
+
+
+            
+            const finalHead = [['Usuario', 'Código', 'Nombre', 'Carrera', 'Fin Solvencia', 'Estado']];
+            const body = [];
+
+            const table = $('#' + tableID).DataTable();
+            table.rows({ search: 'applied' }).data().each(function (row) {
+                const cells = row.map(cell => {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = cell;
+                    return tempDiv.innerText;
+                });
+
+              
+                body.push(cells.slice(0, 6));
+            });
+
+         
+            doc.autoTable({
+                head: finalHead,
+                body: body,
+                startY: 45,
+                theme: 'grid',
+                styles: { fontSize: 9 }, 
+
+                headStyles: {
+                    fillColor: [32, 201, 151],
+                    textColor: [255, 255, 255],
+                    fontStyle: 'bold',
+                    halign: 'center'
+                },
+                alternateRowStyles: {
+                    fillColor: [245, 245, 245]
+                }
+            });
+
+            doc.save(filename + ".pdf");
+        }
+    </script>
+}

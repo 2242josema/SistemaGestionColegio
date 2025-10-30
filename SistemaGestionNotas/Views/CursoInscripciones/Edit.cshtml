@@ -1,0 +1,62 @@
+﻿@model SistemaGestionNotas.Models.ViewModels.AsignarAlumnosViewModel
+
+@{
+    ViewData["Title"] = "Asignar Alumnos al Curso";
+}
+
+<div class="card shadow border-0">
+    <div class="card-header bg-light py-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="mb-0 text-primary">
+                    <i class="fas fa-user-check me-2"></i>@ViewData["Title"]
+                </h4>
+                <small class="text-muted ms-1">Universidad Tech</small>
+            </div>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Volver al Listado
+            </a>
+        </div>
+    </div>
+
+    <form asp-action="Edit" method="post">
+        <div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <input type="hidden" asp-for="CursoId" />
+            <input type="hidden" asp-for="NombreCurso" />
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">Curso:</label>
+                <p class="fs-5 p-2 bg-light border rounded">@Model.NombreCurso</p>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Seleccione los alumnos a inscribir:</label>
+                <div class="list-group border rounded" style="max-height: 400px; overflow-y: auto;">
+                    @for (int i = 0; i < Model.Alumnos.Count; i++)
+                    {
+                        <label class="list-group-item list-group-item-action">
+                            <input asp-for="Alumnos[i].EstaAsignado" class="form-check-input me-2" type="checkbox" />
+                            @Model.Alumnos[i].Nombre
+                            <input asp-for="Alumnos[i].AlumnoId" type="hidden" />
+                            <input asp-for="Alumnos[i].Nombre" type="hidden" />
+                        </label>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer bg-light text-end">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i>Guardar Cambios
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+       
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
