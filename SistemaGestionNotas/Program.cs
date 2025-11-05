@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SistemaGestionNotas.Data;
 using SistemaGestionNotas.Models;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,8 @@ builder.Services.AddDefaultIdentity<UsuarioAplicacion>(options =>
 
 var app = builder.Build();
 
+app.UseForwardedHeaders();
+
 
 if (app.Environment.IsDevelopment())
 {
@@ -33,7 +36,7 @@ else
 	app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
