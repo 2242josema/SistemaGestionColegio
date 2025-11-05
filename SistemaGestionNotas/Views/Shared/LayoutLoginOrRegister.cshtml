@@ -3,9 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>@ViewData["Title"] - Login Colegio</title>
+    <title>@ViewData["Title"] - Login Universidad Tech</title>
 
-    <!-- plugins:css -->
     <link rel="stylesheet" href="~/vendors/feather/feather.css" />
     <link rel="stylesheet" href="~/vendors/mdi/css/materialdesignicons.min.css" />
     <link rel="stylesheet" href="~/vendors/ti-icons/css/themify-icons.css" />
@@ -19,8 +18,9 @@
     <link rel="shortcut icon" href="~/images/favicon.png" />
 
     <style>
+        
         body {
-            background: url('/images/FondoColegio.jpg') no-repeat center center fixed;
+            background: url('/images/universidad.png') no-repeat center center fixed;
             background-size: cover;
             height: 100vh;
             margin: 0;
@@ -30,41 +30,56 @@
             align-items: center;
         }
 
+        
         main.container.py-4 {
             position: relative;
             z-index: 10;
             width: 100%;
             max-width: 420px;
-            padding: 35px 25px;
-            /* Transparencia Fondo */
-            background: rgba(255, 255, 255, 0.1); 
-
+            padding: 35px 25px;            
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            /* Color de texto */
-            color: #333333; 
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: #f0f0f0;
             text-align: center;
+            animation: fadeIn 0.8s ease forwards;
         }
 
+       
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        
         main h2 {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             font-weight: bold;
-            color: #333333; 
+            color: #ffffff; 
+            font-size: 28px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
+     
         input[type="text"],
         input[type="password"] {
             width: 100%;
             padding: 12px 15px;
             margin: 10px 0;
             border-radius: 8px;
-            /* Para transparencia */
-            border: 1px solid rgba(255, 255, 255, 0.8); 
-            background: rgba(255, 255, 255, 0.1); 
-            /* Color de texto input */
-            color: #333333; 
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff; 
             outline: none;
             font-size: 14px;
             transition: 0.3s ease;
@@ -72,19 +87,20 @@
 
             input[type="text"]::placeholder,
             input[type="password"]::placeholder {
-                color: #666666; 
+                color: #ddd; 
             }
 
             input[type="text"]:focus,
             input[type="password"]:focus {
                 border-color: #4facfe;
-                box-shadow: 0 0 6px #4facfe;
+                box-shadow: 0 0 8px #4facfe;
             }
 
+ 
         button[type="submit"],
         input[type="submit"] {
-            background: linear-gradient(135deg, #4facfe 0%, #1f3bb3 100%);
-            color: #fff; 
+            background: linear-gradient(135deg, #4facfe 0%, #1f3bb3 100%); 
+            color: #fff;
             border: none;
             padding: 12px;
             width: 100%;
@@ -98,23 +114,51 @@
             button[type="submit"]:hover,
             input[type="submit"]:hover {
                 transform: translateY(-2px);
-                box-shadow: 0 6px 15px rgba(79, 172, 254, 0.4);
+                box-shadow: 0 6px 20px rgba(79, 172, 254, 0.6);
             }
 
-        /* "¿Olvidaste tu contraseña?" y "Registrarse" */
+       
+        .form-check {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            margin: 10px 0;
+            color: #ddd;
+        }
+
         a {
-            color: #333333; 
+            color: #cfcfcf; 
             text-decoration: none;
             font-size: 14px;
         }
 
             a:hover {
                 text-decoration: underline;
-                color: #4facfe; /* Color al pasar el mouse */
+                color: #4facfe;
+            }
+
+      
+        .logo {
+            position: absolute;
+            top: -40px;
+            left: 20px;
+            width: 250px;
+            height: auto;
+            opacity: 0.85;
+            z-index: 20; 
+            animation: fadeIn 1s ease-in-out;
+        }
+
+            .logo:hover {
+                opacity: 1;
+                transform: scale(1.05);
+                transition: 0.3s;
             }
     </style>
 </head>
 <body>
+    <img src="@Url.Content("~/images/logo_white_transparent.png")" alt="Logo Universidad Tech" class="logo" />
+
     <main role="main" class="container py-4">
         @RenderBody()
     </main>
@@ -124,4 +168,4 @@
     <script src="~/js/site.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
-</html> 
+</html>

@@ -1,0 +1,191 @@
+﻿@{
+    ViewData["Title"] = "Dashboard de Notas";
+}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+
+
+<h2>Dashboard de Gestión Académica</h2>
+<hr />
+
+<div class="row">
+
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-info text-white">
+                <h5 class="card-title mb-0">Matrícula Total por Carrera</h5>
+            </div>
+            <div class="card-body d-flex justify-content-center align-items-center">
+                <canvas id="chartMatriculaCarrera"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="card-title mb-0">Top 10 Cursos por Promedio de Nota Final</h5>
+            </div>
+            <div class="card-body d-flex justify-content-center align-items-center">
+                <canvas id="chartRendimientoCursos"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-success text-white">
+                <h5 class="card-title mb-0">Tasa de Aprobación General por Carrera (%)</h5>
+            </div>
+            <div class="card-body d-flex justify-content-center align-items-center">
+                <canvas id="chartTasaAprobacion"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="card-title mb-0">Distribución de Alumnos por Estado Académico</h5>
+            </div>
+            <div class="card-body d-flex justify-content-center align-items-center">
+                <canvas id="chartAlumnosEstadoAcademico"></canvas>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            Chart.register(ChartDataLabels);
+
+            // Mi función para cargar datos del Controller
+            function loadChart(urlAction, canvasId, chartType, chartOptions) {
+                $.ajax({
+                    url: '@Url.Action(null, "Dashboard")/' + urlAction,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        var ctx = document.getElementById(canvasId).getContext('2d');
+
+                        var datasets = [{
+                            label: chartOptions.label,
+                            data: data.data,
+                            backgroundColor: data.backgroundColors,
+                            borderColor: chartOptions.borderColor || 'rgba(0,0,0,0)',
+                            borderWidth: chartOptions.borderWidth || 1,
+                            hoverOffset: chartOptions.hoverOffset || 0
+                        }];
+
+                        new Chart(ctx, {
+                            type: chartType,
+                            data: {
+                                labels: data.labels,
+                                datasets: datasets
+                            },
+                            options: chartOptions.options
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error al cargar " + urlAction + ": " + error);
+                        $('#' + canvasId).parent().html('<div class="alert alert-danger text-center">Error al cargar datos. Revisar Controller.</div>');
+                    }
+                });
+            }
+
+            // Opciones de DataLabels para Gráficos de % (Dona y Pastel)
+            const percentageDataLabelsOptions = {
+                plugins: {
+                    datalabels: {
+                        formatter: (value, context) => {
+                            const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                            if (total === 0) return '0%';
+                            const percentage = ((value / total) * 100).toFixed(1) + '%';
+                            return percentage;
+                        },
+                        color: '#fff',
+                        textShadowBlur: 4,
+                        textShadowColor: 'black',
+                        font: { weight: 'bold' }
+                    },
+                    legend: { position: 'right' },
+                    title: { display: true }
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            };
+
+            // G1: Matrícula por Carrera (AHORA bg-info)
+            loadChart("GetMatriculaPorCarrera", "chartMatriculaCarrera", 'doughnut', {
+                label: 'Cantidad de Alumnos',
+                hoverOffset: 4,
+                options: {
+                    ...percentageDataLabelsOptions,
+                    plugins: {
+                        ...percentageDataLabelsOptions.plugins,
+                        title: { display: true, text: 'Distribución de Alumnos por Programa' }
+                    }
+                }
+            });
+
+            // G2: Rendimiento Promedio por Curso
+            loadChart("GetRendimientoPromedioPorCurso", "chartRendimientoCursos", 'bar', {
+                label: 'Nota Final Promedio',
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: { title: { display: true, text: 'Promedio de Notas (Escala 0-100)' } },
+                    scales: { x: { beginAtZero: true, max: 100 } }
+                }
+            });
+
+            // G3: Tasa de Aprobación por Carrera
+            loadChart("GetTasaAprobacionPorCarrera", "chartTasaAprobacion", 'bar', {
+                label: 'Tasa de Aprobación (%)',
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: { display: true, text: 'Porcentaje de Calificaciones Aprobatorias (>= 61)' },
+                        datalabels: {
+                            formatter: (value) => value.toFixed(1) + '%', // Muestro el valor de la barra + %
+                            anchor: 'end',
+                            align: 'end',
+                            color: '#333',
+                            offset: 4,
+                            font: { weight: 'bold' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: { display: true, text: 'Porcentaje (%)' }
+                        }
+                    }
+                }
+            });
+
+            // G4: Distribución de Alumnos por Estado Académico
+            loadChart("GetAlumnosPorEstadoAcademico", "chartAlumnosEstadoAcademico", 'pie', {
+                label: 'Cantidad de Alumnos',
+                hoverOffset: 8,
+                options: {
+                    ...percentageDataLabelsOptions,
+                    plugins: {
+                        ...percentageDataLabelsOptions.plugins,
+                        title: { display: true, text: 'Alumnos clasificados por Promedio General' }
+                    }
+                }
+            });
+        });
+    </script>
+}

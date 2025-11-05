@@ -11,15 +11,14 @@ namespace SistemaGestionNotas.Models
         [Key]
         public Guid CalificacionId { get; set; } = Guid.NewGuid();
 
-
-        // Relación con Curso
+       
         public Guid CursoId { get; set; }
 
         [ForeignKey("CursoId")]
         [DisplayName("Curso")]
         public virtual Curso Curso { get; set; }
 
-        // Relación con Alumno
+        
         public Guid AlumnoId { get; set; }
 
         [ForeignKey("AlumnoId")]

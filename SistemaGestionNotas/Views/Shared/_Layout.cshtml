@@ -25,7 +25,12 @@
 <body class="sidebar-fixed">
 
     @{
+        // Obtener el nombre de usuario y el rol del claim
         string nombreUsuario = User.FindFirst("FullName")?.Value ?? User.Identity?.Name ?? "Usuario";
+        string usuarioRol = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value ?? "";
+
+        // LÓGICA CLAVE: Determinar el controlador de inicio según el rol
+        string inicioController = User.IsInRole("Administrador") ? "Dashboard" : "Home";
     }
 
     <div class="container-scroller">
@@ -39,11 +44,10 @@
                     </button>
                 </div>
 
-                <a class="navbar-brand brand-logo d-none d-lg-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                <a class="navbar-brand brand-logo d-none d-lg-flex align-items-center" asp-area="" asp-controller="@inicioController" asp-action="Index">
                     <img src="~/images/logotransparenteblack.png" alt="Universidad Tech Logo" style="height: 120px; width: auto; display: block;" />
                 </a>
 
-               
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-top">
                 <ul class="navbar-nav">
@@ -60,7 +64,7 @@
                             <div class="dropdown-header text-center">
                                 <i class="mdi mdi-account-circle icon-md-header"></i>
                                 <p class="mb-1 mt-3 font-weight-semibold">@nombreUsuario</p>
-                                <p class="fw-light text-muted mb-0">@User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value</p>
+                                <p class="fw-light text-muted mb-0">@usuarioRol</p>
                             </div>
                             <a class="dropdown-item" href="/Identity/Account/Logout"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Cerrar Sesión</a>
                         </div>
@@ -76,7 +80,7 @@
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
                     <li class="nav-item">
-                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                        <a class="nav-link" asp-area="" asp-controller="@inicioController" asp-action="Index">
                             <i class="mdi mdi-home-variant menu-icon"></i>
                             <span class="menu-title">Inicio</span>
                         </a>

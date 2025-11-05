@@ -4,15 +4,15 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Security.Claims; // <-- 1. AÑADIR ESTE USING
+using System.Security.Claims; 
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore; // <-- 2. AÑADIR ESTE USING
+using Microsoft.EntityFrameworkCore; 
 using Microsoft.Extensions.Logging;
-using SistemaGestionNotas.Data; // <-- 3. AÑADIR ESTE USING
+using SistemaGestionNotas.Data; 
 using SistemaGestionNotas.Models;
 
 namespace SistemaGestionNotas.Areas.Identity.Pages.Account
@@ -139,13 +139,25 @@ namespace SistemaGestionNotas.Areas.Identity.Pages.Account
                         await _userManager.AddClaimAsync(usuario, claim);
                     }
 
-                    // Refrescamos la cookie de sesión para que incluya el nuevo claim
+
                     await _signInManager.RefreshSignInAsync(usuario);
 
-                    // ===== FIN DE LA LÓGICA =====
 
                     _logger.LogInformation("Usuario ha iniciado sesión.");
-                    return LocalRedirect(returnUrl);
+
+                    _logger.LogInformation("Usuario ha iniciado sesión.");
+
+                    if (await _userManager.IsInRoleAsync(usuario, "Administrador"))
+                    {
+                       
+                        return LocalRedirect("/Dashboard");
+                    }
+                    else
+                    {
+
+                        return LocalRedirect("/Home");
+                    }
+
                 }
                 if (result.RequiresTwoFactor)
                 {
