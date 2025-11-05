@@ -1,5 +1,6 @@
 ﻿@model SistemaGestionNotas.Models.ViewModels.CursoInscripcionesDetailsViewModel
 @{
+    // CLAVE: Asegura que esta vista se renderice sin el menú y el encabezado de la aplicación.
     Layout = null;
 }
 
@@ -19,29 +20,36 @@
             color: #333;
         }
 
+        /* 🏆 CSS CORREGIDO PARA CENTRADO 🏆 */
         .report-header {
             display: flex;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: space-between; /* Alinea los extremos */
             margin-bottom: 25px;
             padding-bottom: 15px;
-            position: relative;
+            border-bottom: 1px solid #ddd;
         }
 
             .report-header .text-container {
+                /* Ocupa el espacio central restante */
                 flex-grow: 1;
                 text-align: center;
-               
-                transform: translateX(-90px);
+                /* Eliminamos el 'transform: translateX(-90px);' */
             }
 
-        .report-logo {
-            width: 180px; 
+        .report-logo-left {
+            width: 180px; /* Tamaño del logo */
             height: auto;
-            position: absolute;
-            left: 0;
-            top: 0;
+            flex-shrink: 0; /* Evita que el logo se encoja */
+            visibility: visible; /* Aseguramos que sea visible */
         }
+
+        .report-logo-right {
+            /* Creamos un espacio vacío a la derecha para equilibrar el centro de gravedad */
+            width: 180px;
+            flex-shrink: 0;
+        }
+        /* FIN CSS CORREGIDO PARA CENTRADO */
 
         .report-header h1 {
             font-size: 2.5rem;
@@ -90,12 +98,14 @@
     <div id="pdf-content">
 
         <div class="report-header">
-            <img src="@Url.Content("~/images/logotransparenteblack.png")" alt="Logo Universidad" class="report-logo" />
+            <img src="@Url.Content("~/images/logotransparenteblack.png")" alt="Logo Universidad" class="report-logo-left" />
 
             <div class="text-container">
                 <h1>Universidad Tech</h1>
                 <h4>Reporte de Inscripciones</h4>
             </div>
+
+            <div class="report-logo-right"></div>
         </div>
 
         <div class="course-info">
