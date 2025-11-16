@@ -89,7 +89,7 @@ namespace SistemaGestionNotas.Controllers
                 }
                 catch (TimeZoneNotFoundException)
                 {
-                    usuario.FechaCreacion = DateTime.UtcNow; // Fallback
+                    usuario.FechaCreacion = DateTime.UtcNow; 
                 }
 
                 var result = await _userManager.CreateAsync(usuario, password);
@@ -153,7 +153,6 @@ namespace SistemaGestionNotas.Controllers
         }
 
         // POST: Usuarios/Edit/5 
-        // ***** MODIFICADO *****
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,UserName,Email")] UsuarioAplicacion usuario, string? newPassword, string rolSeleccionado)
@@ -213,7 +212,7 @@ namespace SistemaGestionNotas.Controllers
         }
 
         // GET: Usuarios/Delete/5 
-        // ***** MODIFICADO *****
+        
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null) return NotFound();
@@ -227,7 +226,7 @@ namespace SistemaGestionNotas.Controllers
         }
 
         // POST: Usuarios/Delete/5 
-        // ***** MODIFICADO *****
+  
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
